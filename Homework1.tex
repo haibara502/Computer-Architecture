@@ -1,0 +1,136 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+
+\usepackage{amssymb}
+\newenvironment{claim}[1]{\par\noindent\underline{Claim:}\space#1}{}
+\newenvironment{guess}[1]{\par\noindent\underline{Guess:}\space#1}{}
+\usepackage{amsthm}
+
+\usepackage{geometry}
+\geometry{left=2.5cm,right=2.5cm}
+
+\title{Homework1}
+\author{Qinyun Song}
+\date{}
+
+\begin{document}
+	\maketitle
+
+	\section{Summarizing Performance Numbers}
+	\begin{enumerate}
+		\item For each of the system, we can calculate the execution time of them. \begin{description}
+			\item[BASE] 
+				$Exe\_Time_{BASE} = 3 + 2.5 + 1 + 12 = 18.5$
+			\item[NEW1] 
+				$Exe\_Time_{NEW1} = 7 + 3 + 5 + 1 = 16$ 
+			\item[NEW2]
+				$Exe\_Time_{NEW2} = 2 + 1 + 3 + 8 = 14$
+			\item[NEW3]
+				$Exe\_Time_{NEW3} = 1 + 3 + 2 + 13 = 19$
+		\end{description}
+		From the above, we can know that, \emph{NEW2} has the least execution time.
+		\item To find the system with least energy consumption, for each system, we just calculate the sum of the product of the execution time and the system energy costed and then find the system with smallest value. So we can calculate as the following: \begin{description}
+			\item[BASE] $20 + 40 + 50 + 15 = 125$
+			\item[NEW1] $10 + 30 + 15 + 30 = 85 $
+			\item[NEW2] $30 + 60 + 20 + 20 = 130$
+			\item[NEW3] $70 + 35 + 30 + 10 = 145$
+		\end{description}
+		From the above, we can see that, \emph{NEW1} has the least energy consumption.
+		\item To find the system consuming least system power, we need to find the system that has least ratio of energy costed and the time. So we divide the energy by running time and find the system with smallest value. \begin{description}
+			\item[BASE] $20 /3 + 40 / 2.5 + 50 / 1 + 15 / 12 \approx 74 $
+			\item[NEW1] $10 / 7 + 30 / 3 + 15 / 5 + 30 / 1 \approx 44.4 $
+			\item[NEW2] $30 / 2 + 60 /1 + 20 / 3 + 20 / 8 \approx 84.2 $
+			\item[NEW3] $70 / 1 + 35 / 3 + 30 / 2 + 10 / 13 \approx 97.4$
+		\end{description}
+		From the above, we can see that, \emph{NEW1} consumes least system power.
+	\end{enumerate}
+
+	\section{Optimizing CPU Time}
+	\begin{enumerate}
+		\item \begin{equation}
+			IPC_{old} = 10\% \times 2 + 5\% \times 1 + 5\% \times 2 + 30\% \times 1 + 50\% \times 4 = 2.65
+		\end{equation}
+		When $60\%$ MULT is combined with ADD to MULT-ADD in 4 cycles, the frequency can be recalculated as the following: \newline
+		\begin{tabular}{|c|c|c|}
+			\hline
+			& Frequency & Cycles \\
+			\hline
+			Load & $12\%$ & 2 \\
+			\hline
+			Store & $6\%$ & 1 \\
+			\hline
+			Branch & $6\%$ & 2 \\
+			\hline
+			Add & $15\%$ & 1 \\
+			\hline
+			MULT & $39\%$ & 4 \\
+			\hline
+			MULT-ADD & $22\%$ & 4 \\
+			\hline
+		\end{tabular}
+		So the new IPC would be \begin{equation}
+			IPC_{new} = 12\% \times 2 + 6\% \times 1 + 6\% \times 2 + 15\% \times 1 + 39\% \times 4 + 22\% \times 4 = 3.01
+		\end{equation}
+		\item \begin{equation}
+			speedup = \frac{IPC_{old}}{IPC_{new}} = 2.65 / 3.01 \approx 8
+		\end{equation}
+	\end{enumerate}
+
+	\section{Amhahl's Law}
+	\begin{enumerate}
+		\item For reducing the wireless interface energy by $10\%$, the speedup is \begin{equation}
+			speedup_{wireless} = 1 / (50\% \times (1 - 10\%) + 20\% + 10\% + 20\%) \approx 1.05
+		\end{equation}
+		\item For reducing the CPU energy by $60\%$, the speedup is\begin{equation}
+			speedup_{CPU} = 1 / (50\% + 20\% + 10\% \times (1 - 60\%) + 20\%) \approx 1.06
+		\end{equation}
+		\item The speed up for reducing the display energy by $50\%$ is \begin{equation}
+			speedup_{display} = 1 / (50\% + 20\% \times (1 - 50\%) + 10\% + 20\%) \approx 1.11
+		\end{equation}
+	\end{enumerate}
+	From the above, we can see that, the best energy optimization is to reducing the display energy by $50\%$.
+
+	\section{Power and Energy}
+	\begin{enumerate}
+		\item \begin{equation}
+			15 \times (70 + 30) = 1500 W
+		\end{equation}
+		\item \begin{equation}15 \times (70 \times (1 - 30\%) + 30) = 1185W \end{equation}
+		\item \begin{equation}15 \times (1 - 30\%) \times (70 + 30) = 1050W \end{equation}
+	\end{enumerate}
+
+	\section{Instruction Set Architecture}
+		\begin{description}
+		\item[LOAD R5, 6000(R0)] \begin{equation}
+			R5 = MEM[6000 + 1000] = MEM[7000] = 1
+		\end{equation}
+		\item[ADD R4, (R4)] \begin{equation}
+			R4 = R4 + Mem[6000] = 6000 + 12 = 6012
+		\end{equation}
+		\item[SUB R2, R1] \begin{equation}
+			R2 = R2 - R1 = 99 - 25 = 74
+		\end{equation}
+		\item[LOAD R6, @(R0)] \begin{equation}
+			R6 = MEM[MEM[R0]] = MEM[MEM[1000]] = MEM[3000] = 33
+		\end{equation}
+		\item[ADD R6, R4] \begin{equation}
+			R6 = R6 + R4 = 33 + 6012 = 6045
+		\end{equation}
+		\item[SUB R5, R6] \begin{equation}
+			R5 = R5 - R6 = 1 - 6045 = -6044
+		\end{equation}
+		\item[ADD R2, R5] \begin{equation}
+			R2 = R2 + R5 = 74 - 6044 = -5970
+		\end{equation}
+		\item[ADD R2, (R3 + R0)] \begin{equation}
+			R2 = R2 + MEM[R3 + R0] = R2 + MEM[4000 + 1000] = -5970 + 71 = -5899
+		\end{equation}
+		\end{description}
+\end{document}
