@@ -1,0 +1,96 @@
+\documentclass{article}
+
+\title{Assignment 2}
+\author{Qinyun Song}
+\date{}
+
+\begin{document}
+    \maketitle
+
+    \section{Pipelining Performance}
+	\begin{enumerate}
+	    \item As we know, $CPU time = IC \times CPI \times CT$. Here, IC is 1000, CPI is 1 since it can execute one instruction per cycle. And CT is 10ns. So we can have \begin{displaymath}
+	    CPU time = 1000 \times 1 \times 10ns = 10000ns
+	    \end{displaymath}
+	    \item First of all, 2 bubbles are added every 10 cycles. So we have \begin{displaymath}
+	    new CPI = (10 + 2) / 10 = 1.2
+	\end{displaymath}
+	Since it is converted into 10 stage pipeline and 1ns additional delay is added, we know that \begin{displaymath}
+	    new CT = 10ns / 10 + 1ns = 2ns
+	\end{displaymath}
+	As for the IC, it is not changed. So we can get the new CPU time as \begin{displaymath}
+	    new CPU time = 1000 \times 1.2 \times 2ns = 2400ns
+	\end{displaymath}
+	Now we can calculate the speedup:
+	\begin{displaymath}
+	    10000ns / 2400ns \approx 4.17
+	\end{displaymath}
+	\end{enumerate}
+
+    \section{Control Hazards}
+	First of all, we can see that, $80\%$ instructions are not branches. For the remaining $20\%$, $60\%$ of them are taken. Also, we know that we can move two instructions from the taken side into the branch delay slot. So there will be no penalty when we take the branches. For the remaning $40\%$ part, two delays are generated each time. After all, there are only $20\% \times 40\% = 8\%$ instructions need two more cycles. So the expected CPI is \begin{displaymath}
+	1 + 8\% \times 2 = 1.16
+	\end{displaymath}
+
+    \section{Multi-cycle Instructions}
+    \begin{enumerate}
+	\item First of all, index those instructions from 1 to 7. Then we can generate the following table. \newline
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+	    \hline
+	    Time & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\
+	    \hline
+	    1 & IF & & & & & &\\
+	    \hline
+	    2 & IS & IF & & & & & \\
+	    \hline
+	    3 & RR & IS & IF & & & &\\
+	    \hline
+	    4 & LOAD & RR & IS & IF & & &\\
+	    \hline
+	    5 & WRITE & LOAD & NOP & NOP& & &\\
+	    \hline
+	    6 & * & WRITE & RR & IS & IF & & \\
+	    \hline
+	    7 & * & * & MUL & RR & IS & IF &\\
+	    \hline
+	    8 & * & * & MUL & SAVE & NOP& NOP& \\
+	    \hline
+	    9 & * & * & MUL & WRITE & NOP& NOP& \\
+	    \hline
+	    10 & * & *& WRITE & * & RR & IS & IF \\
+	    \hline
+	    11 & * & * & * & * & DIV & RR & IS \\
+	    \hline
+	    12 & * & * & * & * & DIV & ADD & RR \\
+	    \hline
+	    13 & * & * & * & * & DIV & WRITE & SAVE \\
+	    \hline
+	    14 & * & * & * & * & DIV & * & WRITE \\
+	    \hline
+	    15 & * & * & * & * & WRITE & * & * \\
+	    \hline
+	\end{tabular}
+	\item \begin{enumerate}
+	    \item RAW between instruction 2 and 3 when they both need F2.
+	    \item RAW between instruction 3 and 5 when they both need F0.
+	    \item RAW between instruction 1 and 4 when they both need F6.
+	    \item RAW between instruction 1 and 5 when they both  need F6.
+	    \item RAW between instruction 4 and 6 when they both need F8.
+	    \item RAW between instruction 6 and 7 when they both need F8.
+	    \item RAW between instruction 2 and 6 when they both need F6.
+	    \item WAR between instruction 4 and 6 when they both need F6.
+	    \item WAR between instruction 5 and 6 when they both need F6.
+	    \item WAW between instruction 1 and 6 when they both need F6.
+	    \item Structual hazard on cycle 4 when both LOAD and IF perform at the same time. (Can be solved by seperating the memory and register reading.)
+	    \item Structual hazard on cycle 6 when both WRITE and READ at the same time. (Can be solved if half of the cycle is used to write and the remaining half is used to read.)
+	    \item Structual hazard on cycle 10 when both WRITE and READ at the same time. (Solution is the same as above).
+    \end{enumerate}
+    \end{enumerate}
+
+    \section{Points of Production and Consumption}
+    \begin{enumerate}
+    \item For un-pipelined processor, the cycle time is $36 + 0.5 = 36.5ns$. The IPC is 1. So the thoughput is $1 / 36.5 \approx 0.03$.
+    \item For the pipelined processor, since it has 12 stages, each stage needs 3ns. And there is a latch between 2 stages. So one stage will take $3 + 0.5 = 3.5ns$.
+    If there is no hazard, the thoughput would be $1 / 3.5$. But if data hazard exists, the thoughput would be $1 / (3.5 \times 4)$. From the problem we know that only half instruction lead to data hazard. So the total thoughput would be $1 / (0.5 \times (3.5 + 3.5 \times 4)) \approx 0.11$.
+    \end{enumerate}
+\end{document}
