@@ -1,0 +1,53 @@
+\documentclass{article}
+
+\title{Assignment 6}
+\author{Qinyun Song}
+\date{}
+
+\begin{document}
+    \maketitle
+
+    \section{Memory Scheduling Mechanism}
+
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    Row being accessed & Arrival time & Open-page & Close-page \\
+    \hline
+    X & 10ns & $10 + 40 = 50$ & $10 + 40 = 50$ \\
+    \hline
+    X & 70ns & $70 + 20 = 90$ & $70 + 20 + 20 = 110$ \\
+    \hline
+    Y & 90ns & $90 + 20 \times 3 = 150 $ & $110 + 20 \times 4 = 190$ \\
+    \hline
+    X & 100ns & $150 + 20 \times 3 = 210 $ & $110 + 20 = 130$ \\
+    \hline
+    Y & 180ns & $210 + 20 \times 3 = 270$ & $190 + 20 = 210$ \\
+    \hline
+    \end{tabular}
+
+    \section{Memory System Design}
+    For the pros, since the data bus is shrinked , the data we can transfer more each time to increase the parallelism. Also, the energy consumption is reduced each time. For the cons, we may need more time to fetch a line. This will also results in limited bandwidth.
+
+    \section{Virtually Indexed Physically Tagged Cache}
+    Since the page size is 4KB, we know that the offset bit is 12. We know that it is VIPT cache, so the sum of offset bit and index bit should be the same as the page offset. So we know that, based on that the L1 is 8-way set associative, the maximum capacity would be $8 \times 4KB = 32KB$.
+    \section{DRAM Control}
+    \begin{enumerate}
+    \item $t_{CL}$
+    \item $t_{RP} + t_{RCD} + t_{CL}$
+    \end{enumerate}
+    \section{DRAM Control Tasks Request Scheduling}
+    For the actions:
+    \begin{enumerate}
+    \item ACT, RD
+    \item PRE, ACT, RD
+    \item ACT, RD
+    \item RD
+    \end{enumerate}
+    For the time:
+    \begin{enumerate}
+    \item $t_{RAS}, t_{CAS}$
+    \item $t_{PRE}, t_{RAS}, t_{CAS}$
+    \item $t_{RAS}, t_{CAS}$
+    \item $t_{CAS}$
+    \end{enumerate}
+\end{document}
