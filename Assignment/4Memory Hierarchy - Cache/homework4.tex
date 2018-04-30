@@ -1,0 +1,130 @@
+\documentclass{article}
+
+\title{Homework4}
+\author{Qinyun Song}
+\date{}
+
+\begin{document}
+    \maketitle
+
+    \section{Cache Hierarchy}
+    \begin{enumerate}
+    \item For L1, $t_1 = 2000 \times 0.5 \times 1$
+    \item For L2, $t_2 = 2000 \times 0.5 \times 0.55 \times (1 + 3 + 18)$
+    \item For L3, $t_3 = 2000 \times 0.5 \times 0.45 \times 0.75 \times (1 + 3 + 25 + 85)$
+    \item For Memory, $t_4 = 2000 \times 0.5 \times 0.45 \times 0.25 \times (1 + 3 + 25 + 440)$
+    \end{enumerate}
+    So the total is \begin{displaymath}
+    total = t_1 + t_2 + t_3 + t_4 \approx 104338 cycles
+    \end{displaymath}
+
+    \section{Performance Metric}
+    $5 + 20\% \times 150 = 35 cycles$.
+
+    \section{Cache Addressing}
+    Since main memory is 8GB, there are 33 bits.
+    \begin{enumerate}
+    \item For L1, 16B block means offset is 4 bits. Since there are 32 KB blocks, index bit is 11. The tag bits is $33 - 11 -4 = 18 $bits. \newline
+    For L2,, 64B block means offset is 6 bits. Then there are $2^{12}$ blocks so the index bit is 12. Finally, the tag bit is $33 - 12 - 6 = 15$.
+
+    \item For L1, the array size is 32kb. The tag array size is $18 \times 2^{11} = 36864 bits = 4.5kb$.\newline For L2, the array size is 1MB. So the tag array size is $4 \times 15 \times 2^{12} = 245760 bits = 30kb$.
+    \end{enumerate}
+
+    \section{Cache Replacement Policies}
+    \begin{enumerate}
+    \item \begin{tabular}{|c|c|c|c|}
+    \hline
+    P1 & Ideal & LRU & MRU \\
+    \hline
+	C & M & M & M \\
+    \hline
+	A & M & M & M \\
+    \hline
+	B & M & M & M \\
+    \hline
+	D & M & M & M \\
+    \hline
+	B & H & H & H \\
+    \hline
+	F & M & M & M \\
+    \hline
+	C & H & M & H \\
+    \hline
+	E & M & M & M \\
+    \hline
+	A & M & M & M \\
+    \hline
+	D & H & M & H \\
+    \hline
+	B & H & M & H \\
+    \hline
+	F & M & M & M \\
+    \hline
+	A & H & H & H \\
+    \hline
+	B & H & H & H \\
+    \hline
+	C & M & M & M \\
+    \hline
+	E & H & M & H \\
+    \hline
+	B & H & H & M \\
+    \hline
+	A & M & M & H \\
+    \hline
+	F & H & H & H \\
+    \hline
+	D & M & M & M  \\
+    \hline
+    \end{tabular}
+    For Ideal, the miss rate is $55\%$. For LRU, the miss rate is $75\%$. For the MRU, the miss rate is $55\%$.
+
+    \item \begin{tabular}{|c|c|c|c|}
+    \hline
+    P2 & Ideal & LRU & MRU \\
+    \hline
+    D & M & M & M \\
+    \hline
+    F & M & M & M \\
+    \hline
+    C & M & M & M \\
+    \hline
+    B & M & M & M \\
+    \hline
+    A & M & M & M \\
+    \hline
+    A & H & H & H \\
+    \hline
+    F & H & H & H \\
+    \hline
+    C & H & M & H \\
+    \hline
+    D & H & H & H \\
+    \hline
+    D & H & H & H \\
+    \hline
+    A & H & H & H \\
+    \hline
+    B & M & M & M \\
+    \hline
+    A & H & H & M \\
+    \hline
+    B & H & H & M \\
+    \hline
+    C & M & M & H \\
+    \hline
+    E & M & M & M \\
+    \hline
+    B & H & H & H \\
+    \hline
+    A & M & M & M \\
+    \hline
+    B & H & H & M \\
+    \hline
+    D & H & H & M \\
+    \hline
+    \end{tabular}
+    The miss rate of ideal is 45\%. The miss rate for LRU is 50\%. The miss rate for MRU is 60\%.
+    \end{enumerate}
+
+\end{document}
