@@ -1,0 +1,21 @@
+\documentclass{article}
+\title{Assignment5}
+\author{Qinyun Song}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Virtually Indexed Caches}
+    When the sum of index and offset bits is no larger than the size of page offset, it works fine. Because during the translation, the virtual address can be mapped into unique physical page. And thus the cache doesn't need to be translated. \newline
+
+    But the situation is different when the sum of index and offset bits is larger than the page offset. There will be a problem called Aliasing. The problem means that, when one VA is going to be changed to PA, there may be several possible PAs mapped to the VA. The reason leads to this situation is that, when the sum of index and offset bit is larger than page size, the system can only save the last page offset bits. Thus the VA may be stored in different location in cache. To avoid this, one possible solution is that, everytime we met a cache miss, we check all possible locations of aliases in the cache and evict the aliases. After that, we can continue the standard translation procedure. When the sum of index and offset bits minus the page offset is X bits, the possible locations we need to check is $2^X$.
+    \newline
+
+    Reference:https://cseweb.ucsd.edu/classes/fa10/cse240a/pdf/08/CSE240A-MBT-L18-VirtualMemory.ppt.pdf
+
+\section{Cache and Memory Model using CACTI}
+    I download CACTI6.5 both from its website and from www.cs.utah.edu/~rajeev/cacti6. But I cannot compile the software. My os is MacOS. And I just use the command "make". But one error always occurs. So now I can only skip this problem. I am so sorry about this.
+
+\end{document}
